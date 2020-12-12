@@ -1,0 +1,24 @@
+.combat-card {
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid #b4b0b0;
+}
+
+.combat-card p {
+  margin: 2px 0;
+}
+
+.combat-card .small-text {
+  font-size: 9px;
+}
+
+.combat-card h3 {
+  color: white;
+  background-color: black;
+  text-transform: uppercase;
+}
+
+.combat-card h4 {
+  color: #7e7e7e;
+}
+/*# sourceMappingURL=forbidden-card-combat.css.map */

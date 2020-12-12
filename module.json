@@ -6,12 +6,12 @@
     "minimumCoreVersion": "0.7.0",
     "compatibleCoreVersion": "0.7.8",
     "author": "HappySteve",
-
     "esmodules": [],
     "scripts": ["fl-combat.js"],
-    "styles": [],
+    "styles": ["css/forbidden-card-combat.css"],
     "packs": [],
     "languages": [],
+    "socket": true,
     "url": "https://github.com/superseva/forbidden-card-combat",
     "manifest": "https://raw.githubusercontent.com/superseva/forbidden-card-combat/main/module.json",
     "download": "https://github.com/superseva/forbidden-card-combat/archive/main.zip"

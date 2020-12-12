@@ -1,0 +1,22 @@
+.combat-card {
+    margin: 3px;
+    padding: 3px;
+    border: 1px solid #b4b0b0;
+
+    p {
+        margin: 2px 0;
+    }
+    .small-text {
+        font-size: 9px;
+    }
+
+    h3 {
+        color: white;
+        background-color: black;
+        text-transform: uppercase;
+    }
+
+    h4 {
+        color: rgb(126, 126, 126);
+    }
+}
