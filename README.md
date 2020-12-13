@@ -4,9 +4,9 @@
 
 Use the GM macro bellow to initiate the combat sequence between GM and selected User.
 
-1. Select Active (online) User as the opponent
+1. GM clicks the macro and select active (online) player as the opponent
 2. GM and selected opponent pick two cards and click 'continue'
-3. GM click To reveal the cards.
+3. GM clicks to reveal the cards.
 
 ## Macro for GM to initiate a card combat sequence
 
