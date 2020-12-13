@@ -5,7 +5,7 @@ class CardCombat extends Application {
         }
         super(options);
         CardCombat._instance = this;
-        this.data = { select1: null, select2: null, submitted: false, opponentSelect1: null, opponentSelect2: null };
+        this.data = { select1: null, select2: null, submitted: false, opponentSelect1: null, opponentSelect2: null, reveal1: false, reveal2: false };
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -31,6 +31,8 @@ class CardCombat extends Application {
         html.find(".stage .reset-selection").click(this._onResetSelection.bind(this));
         // Submit Selection Click
         html.find(".stage .submit-selection").click(this._onSubmitSelection.bind(this));
+        // Reveal Click
+        html.find(".stage .combat-card-box.reveal").click(this._onRevealStep.bind(this));
     }
 
     /**GM INITIATES COMBAT with the opponent he selects through the macro dialog
@@ -58,6 +60,8 @@ class CardCombat extends Application {
         this.data["submitted"] = false;
         this.data["opponentSelect1"] = null;
         this.data["opponentSelect2"] = null;
+        this.data["reveal1"] = false;
+        this.data["reveal2"] = false;
         CardCombat._instance.render(true);
     }
 
@@ -112,14 +116,47 @@ class CardCombat extends Application {
                 content: content,
             });
             this.data["submitted"] = true;
+            // PLAYER GO TO RELEVATION STAGE
             this.switchToStage2();
         } else {
             if (this.data.submitted) {
-                console.log("GO TO REVELATION!");
+                // GM GO TO RELEVATION STAGE
                 this.switchToStage2();
             } else {
                 ui.notifications.warn("Please wait for the opponent to select cards.");
             }
+        }
+    }
+
+    //Only Gm can trigger this
+    _onRevealStep() {
+        let revealData = {
+            step1: {
+                step: 1,
+                gmCard: this.data.select1,
+                playerCard: this.data.opponentSelect1,
+            },
+            step2: {
+                step: 2,
+                gmCard: this.data.select2,
+                playerCard: this.data.opponentSelect2,
+            },
+        };
+        let currentStep = 0;
+        if (this.data.reveal1) {
+            currentStep = 2;
+            this.data.reveal2 = true;
+        } else {
+            currentStep = 1;
+            this.data.reveal1 = true;
+        }
+        if (game.user.isGM) {
+            this.revealStep(currentStep, revealData);
+            game.socket.emit("module.forbidden-card-combat", {
+                operation: "RevealStep",
+                user: game.user.id,
+                content: { step: currentStep, revealData: revealData, opponentId: this.data.opponentId },
+            });
         }
     }
 
@@ -140,6 +177,11 @@ class CardCombat extends Application {
         CardCombat._instance.render(true);
     }
 
+    handle_RevealStep(socketData) {
+        if (socketData.content.opponentId != game.user.id) return;
+        this.revealStep(socketData.content.step, socketData.content.revealData);
+    }
+
     handle_OpenCombatSheet() {
         CardCombat._instance.render(true);
     }
@@ -155,6 +197,21 @@ class CardCombat extends Application {
         $(".stage.stage1").addClass("hidden");
         $(".stage.stage2").removeClass("hidden");
     }
+
+    revealStep(step, stepData) {
+        //console.warn(`REVEALING STEP: ${step}`);
+        //console.warn(stepData["step" + step]);
+        let selectorGM = ".step" + step + " .gm-card .card-face";
+        let cardGM = "modules/forbidden-card-combat/assets/en/card-" + stepData["step" + step].gmCard + ".png";
+        $(selectorGM).attr("src", cardGM);
+        let selectorPlayer = ".step" + step + " .player-card .card-face";
+        let cardPlayer = "modules/forbidden-card-combat/assets/en/card-" + stepData["step" + step].playerCard + ".png";
+        $(selectorPlayer).attr("src", cardPlayer);
+        if (game.user.isGM) {
+            let chatContent = "GM: " + stepData["step" + step].gmCard + " vs. " + "Player: " + stepData["step" + step].playerCard;
+            ChatMessage.create({ content: chatContent });
+        }
+    }
 }
 
 Hooks.once("ready", () => {
@@ -163,6 +220,7 @@ Hooks.once("ready", () => {
     game.socket.on(`module.forbidden-card-combat`, (data) => {
         if (data.operation === "InitiateCombat") CardCombat._instance.handle_StartCombat(data);
         if (data.operation === "SubmitSelection") CardCombat._instance.handle_SubmitSelection(data);
+        if (data.operation === "RevealStep") CardCombat._instance.handle_RevealStep(data);
     });
 });
 

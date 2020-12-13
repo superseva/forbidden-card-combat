@@ -99,39 +99,39 @@
         </div>
     </div>
     <div class="stage stage2 hidden">
-        <div class="flexrow">
+        <div class="flexrow step1">
             <div class="center-middle">
                 <span class="center">
                     <h2>STEP 1</h2>
                     <p>GM vs Player</p>
                 </span>
             </div>
-            <div class="combat-card-box" data-card="hidden">
+            <div class="combat-card-box {{#if isGM}}reveal{{/if}} gm-card" data-card="hidden" data-step="1">
                 <a class="card-front">
                     <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
                 </a>
             </div>
             <div class="center-middle"><= VS.=></div>
-            <div class="combat-card-box" data-card="hidden">
+            <div class="combat-card-box {{#if isGM}}reveal{{/if}} player-card" data-card="hidden" data-step="1">
                 <a class="card-front">
                     <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
                 </a>
             </div>
         </div>
-        <div class="flexrow">
+        <div class="flexrow step2">
             <div class="center-middle">
                 <span class="center">
                     <h2>STEP 2</h2>
                     <p>GM vs Player</p>
                 </span>
             </div>
-            <div class="combat-card-box" data-card="hidden">
+            <div class="combat-card-box {{#if isGM}}reveal{{/if}} gm-card" data-card="hidden" data-step="2">
                 <a class="card-front">
                     <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
                 </a>
             </div>
             <div class="center-middle"><= VS.=></div>
-            <div class="combat-card-box" data-card="hidden">
+            <div class="combat-card-box {{#if isGM}}reveal{{/if}} player-card" data-card="hidden" data-step="2">
                 <a class="card-front">
                     <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
                 </a>
