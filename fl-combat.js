@@ -171,6 +171,7 @@ class CardCombat extends Application {
 
     // GM Recieves this when opponent submits the selected cards
     handle_SubmitSelection(socketData) {
+        if (socketData.user != this.data.opponentId) return;
         this.data["submitted"] = true;
         this.data["opponentSelect1"] = socketData.content.select1;
         this.data["opponentSelect2"] = socketData.content.select2;
