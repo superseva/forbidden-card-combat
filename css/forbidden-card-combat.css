@@ -17,6 +17,26 @@
   align-items: center;
 }
 
+.forbidden-combat .stage.stage2 .step2 {
+  border-top: 1px solid grey;
+}
+
+.forbidden-combat .stage .button {
+  padding: 3px 5px;
+  border: 1px solid black;
+}
+
+.forbidden-combat .button-card-box {
+  width: 170px;
+  height: 250px;
+  margin: 0 2px 2px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .forbidden-combat .combat-card-box {
   position: relative;
   width: 170px;
