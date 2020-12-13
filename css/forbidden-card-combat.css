@@ -1,24 +1,72 @@
-.combat-card {
-  margin: 3px;
-  padding: 3px;
-  border: 1px solid #b4b0b0;
+.forbidden-combat {
+  background-color: aquamarine;
 }
 
-.combat-card p {
-  margin: 2px 0;
+.forbidden-combat .stage {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.combat-card .small-text {
-  font-size: 9px;
+.forbidden-combat .stage.hidden {
+  display: none;
 }
 
-.combat-card h3 {
+.forbidden-combat .stage.stage2 {
+  flex-direction: column;
+}
+
+.forbidden-combat .stage.stage2 .center-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forbidden-combat .combat-card-box {
+  position: relative;
+  width: 170px;
+  height: 250px;
+  margin: 0 2px 2px 0;
+  background-color: blueviolet;
+}
+
+.forbidden-combat .combat-card-box .card-front {
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.forbidden-combat .combat-card-box .card-front img.card-face {
+  border: none;
+  position: relative;
+  top: 0;
+}
+
+.forbidden-combat .combat-card-box .card-front img.card-face.selectable:hover {
+  border: none;
+  position: relative;
+  top: -5px;
+}
+
+.forbidden-combat .combat-card-box .markers {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  width: 44px;
+  height: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-flow: row-reverse;
+  justify-content: space-between;
+}
+
+.forbidden-combat .combat-card-box .markers .marker {
+  width: 20px;
+  height: 20px;
   color: white;
-  background-color: black;
-  text-transform: uppercase;
-}
-
-.combat-card h4 {
-  color: #7e7e7e;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /*# sourceMappingURL=forbidden-card-combat.css.map */

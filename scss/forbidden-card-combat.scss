@@ -1,22 +1,63 @@
-.combat-card {
-    margin: 3px;
-    padding: 3px;
-    border: 1px solid #b4b0b0;
-
-    p {
-        margin: 2px 0;
+.forbidden-combat {
+    background-color: aquamarine;
+    .stage {
+        display: flex;
+        flex-wrap: wrap;
+        &.hidden {
+            display: none;
+        }
+        &.stage2 {
+            flex-direction: column;
+            .center-middle {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
-    .small-text {
-        font-size: 9px;
-    }
-
-    h3 {
-        color: white;
-        background-color: black;
-        text-transform: uppercase;
-    }
-
-    h4 {
-        color: rgb(126, 126, 126);
+    .combat-card-box {
+        position: relative;
+        width: 170px;
+        height: 250px;
+        margin: 0 2px 2px 0;
+        background-color: blueviolet;
+        .card-front {
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            img.card-face {
+                border: none;
+                position: relative;
+                top: 0;
+            }
+            img.card-face.selectable {
+                &:hover {
+                    border: none;
+                    position: relative;
+                    top: -5px;
+                }
+            }
+        }
+        .markers {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            width: 44px;
+            height: 10px;
+            display: flex;
+            flex-direction: row;
+            flex-flow: row-reverse;
+            justify-content: space-between;
+            .marker {
+                width: 20px;
+                height: 20px;
+                color: white;
+                background-color: red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     }
 }

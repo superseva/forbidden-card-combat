@@ -1,101 +1,141 @@
 <div class="forbidden-combat">
-    <div>
-        <div class="flexrow center">
-            <a class="combat-card">
-                <h3>Attack</h3>
-                <h4>- Slow Action -</h4>
-                <div>
-                    <p class="small-text">Roll for MELEE and Gear Bonus. Extra x increase damage.</p>
-                    <p>Slash</p>
-                    <p class="small-text">Requires BLUNT or EDGED weapon. DODGING target gets +2.</p>
-                    <p>Stab</p>
-                    <p class="small-text">Requires POINTED weapon. PARRYING with a weapon gives –2. PARRYING with a shield gives +2.</p>
-                    <p>Punch/Kick/Bite</p>
-                    <p class="small-text">No weapon is used. All PARRIES get +2.</p>
-                    <p>Grapple</p>
-                    <p class="small-text">See the Players’ Guide.</p>
-                </div>
+    <div class="stage stage1">
+        <div class="combat-card-box selectable" data-card="attack">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-attack.png" />
             </a>
-            <a class="combat-card">
-                <h3>Defffend</h3>
-                <h4>- Fast Action -</h4>
-                <div>
-                    <p>Dodge</p>
-                    <p class="small-text">
-                        Roll for MOVE, +2 against a SLASH. Every x rolled eliminates a x rolled by the attacker. If you want to remain standing, you get –2.
-                    </p>
-                    <p>Parry</p>
-                    <p class="small-text">
-                        Roll for MELEE and Weapon Bonus. Requires a shield or a weapon (–2 if it’s not PARRYING). Shield gives +2 against a STAB. Weapon gives
-                        –2 against a STAB. Every x rolled eliminates a x rolled by the attacker.
-                    </p>
-                </div>
-            </a>
-            <a class="combat-card">
-                <h3>Prepare</h3>
-                <h4>- Fast Action -</h4>
-                <div>
-                    <p class="small-text">No roll is required.</p>
-                    <p>Draw Weapon</p>
-                    <p class="small-text">Grab a weapon from your scabbard or from the ground and ready it for combat.</p>
-                    <p>Swing Weapon</p>
-                    <p class="small-text">Requires a HEAVY weapon. Must be performed right before a SLASH or STAB, in the same round. Increases damage +1.</p>
-                    <p>Get Up</p>
-                    <p class="small-text">Go from prone to standing up, or vice versa.</p>
-                </div>
-            </a>
-            <a class="combat-card">
-                <h3>Hinder</h3>
-                <h4>- Fast Action -</h4>
-                <div>
-                    <p class="small-text">Roll for MELEE and Weapon Bonus.</p>
-                    <p>Shove</p>
-                    <p class="small-text">
-                        Shield or weapon with a HOOK can be used. Success means the target falls prone. A SHOVE can be DODGED. To PARRY it requires a shield. A
-                        prone fighter cannot attack in close combat, except SHOVE. Attacks against a prone target get +2.
-                    </p>
-                    <p>Disarm</p>
-                    <p class="small-text">A 1H weapon requires one x to DISARM, 2H weapon requires two. Target can PARRY or DODGE.</p>
-                </div>
-            </a>
+            <div class="markers">
+                {{#ifCond select2 '==' 'attack'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'attack'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
         </div>
-        <div class="flexrow center">
-            <a class="combat-card">
-                <h3>Maneuver</h3>
-                <h4>- Fast Action -</h4>
-                <div>
-                    <p>Feint</p>
-                    <p class="small-text">
-                        Exchange initiative cards with an opponent at ARM’S LENGTH. The new turn order takes effect at next round. No roll is required.
-                    </p>
-                    <p>Run</p>
-                    <p class="small-text">
-                        Move one range category toward or away from your enemies. The movement is considered complete at the end of the current step. A MOVE
-                        roll is required in a ROUGH zone. Failure means that you fall down.
-                    </p>
-                </div>
+        <div class="combat-card-box selectable" data-card="defend">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-defend.png" />
             </a>
-            <a class="combat-card">
-                <h3>Await</h3>
-                <h4>- Fast Action -</h4>
-                <div>
-                    <p class="small-text">
-                        You perform no action at all in this step, because you have already used up one of your actions or that you want to save it for later in
-                        the turn.
-                    </p>
-                </div>
+            <div class="markers">
+                {{#ifCond select2 '==' 'defend'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'defend'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="combat-card-box selectable" data-card="prepare">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-prepare.png" />
             </a>
-            <a class="combat-card">
-                <h3>Double Up</h3>
-                <h4>-</h4>
-                <div>
-                    <p class="small-text">
-                        Choose this card for the second step in the hidden combination to perform an action from the same category as your action in the first
-                        step.
-                    </p>
-                </div>
+            <div class="markers">
+                {{#ifCond select2 '==' 'prepare'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'prepare'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="combat-card-box selectable" data-card="hinder">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-hinder.png" />
             </a>
-            <div>RESET READY</div>
+            <div class="markers">
+                {{#ifCond select2 '==' 'hinder'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'hinder'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="combat-card-box selectable" data-card="maneuver">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-maneuver.png" />
+            </a>
+            <div class="markers">
+                {{#ifCond select2 '==' 'maneuver'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'maneuver'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="combat-card-box selectable" data-card="await">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-await.png" />
+            </a>
+            <div class="markers">
+                {{#ifCond select2 '==' 'await'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'await'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="combat-card-box selectable" data-card="double">
+            <a class="card-front">
+                <img class="card-face selectable" src="modules/forbidden-card-combat/assets/en/card-double.png" />
+            </a>
+            <div class="markers">
+                {{#ifCond select2 '==' 'double'}}
+                <div class="marker">2</div>
+                {{/ifCond}} {{#ifCond select1 '==' 'double'}}
+                <div class="marker">1</div>
+                {{/ifCond}}
+            </div>
+        </div>
+        <div class="flexcol">
+            {{#if isGM}}
+            <div>
+                {{#if submitted}}
+                <p>Opponenet is ready</p>
+                {{/if}} {{#unless submitted}}
+                <p>...waiting for opponenet</p>
+                {{/unless}}
+            </div>
+            {{/if}}
+            <a class="reset-selection">RESET SELECTION</a>
+            <a class="submit-selection">CONTINUE</a>
+        </div>
+    </div>
+    <div class="stage stage2 hidden">
+        <div class="flexrow">
+            <div class="center-middle">
+                <span class="center">
+                    <h2>STEP 1</h2>
+                    <p>GM vs Player</p>
+                </span>
+            </div>
+            <div class="combat-card-box" data-card="hidden">
+                <a class="card-front">
+                    <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
+                </a>
+            </div>
+            <div class="center-middle"><= VS.=></div>
+            <div class="combat-card-box" data-card="hidden">
+                <a class="card-front">
+                    <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
+                </a>
+            </div>
+        </div>
+        <div class="flexrow">
+            <div class="center-middle">
+                <span class="center">
+                    <h2>STEP 2</h2>
+                    <p>GM vs Player</p>
+                </span>
+            </div>
+            <div class="combat-card-box" data-card="hidden">
+                <a class="card-front">
+                    <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
+                </a>
+            </div>
+            <div class="center-middle"><= VS.=></div>
+            <div class="combat-card-box" data-card="hidden">
+                <a class="card-front">
+                    <img class="card-face" src="modules/forbidden-card-combat/assets/en/card-back.png" />
+                </a>
+            </div>
         </div>
     </div>
 </div>

@@ -5,45 +5,192 @@ class CardCombat extends Application {
         }
         super(options);
         CardCombat._instance = this;
-        this.data = {};
-        console.warn("EVO EVO PRAVIM");
+        this.data = { select1: null, select2: null, submitted: false, opponentSelect1: null, opponentSelect2: null };
     }
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
+            title: "Hidden Combinations",
             template: "modules/forbidden-card-combat/templates/combat-table.html",
             classes: ["forbidden-lands", "sheet", "actor"],
             id: "forbidden-combat-card-app",
-            width: "750",
-            height: "500",
+            width: "720",
+            height: "550",
         });
+    }
+
+    getData() {
+        this.data["isGM"] = game.user.isGM;
+        return this.data;
     }
 
     activateListeners(html) {
         super.activateListeners(html);
-        console.warn("ACTIVATING LISTENERS");
+        // Select Card Click
+        html.find(".stage .combat-card-box.selectable").click(this._onCardBoxClick.bind(this));
+        // Reset Selection Click
+        html.find(".stage .reset-selection").click(this._onResetSelection.bind(this));
+        // Submit Selection Click
+        html.find(".stage .submit-selection").click(this._onSubmitSelection.bind(this));
+    }
+
+    /**GM INITIATES COMBAT with the opponent he selects through the macro dialog
+     * this function is called only by GM
+     * @oponentId id of selected oponent
+     */
+    initiateCombat(opponentId) {
+        const content = {};
+        content["opponentId"] = opponentId;
+        game.socket.emit("module.forbidden-card-combat", {
+            operation: "InitiateCombat",
+            user: game.user.id,
+            content: content,
+        });
+        this.startCombat(opponentId);
+    }
+
+    /**On Starting The Combat reset the data and open the board */
+    startCombat(opponentId) {
+        if (game.user.isGM) {
+            this.data["opponentId"] = opponentId;
+        }
+        this.data["select1"] = null;
+        this.data["select2"] = null;
+        this.data["submitted"] = false;
+        this.data["opponentSelect1"] = null;
+        this.data["opponentSelect2"] = null;
+        CardCombat._instance.render(true);
+    }
+
+    /** ----------------------------------------------
+     * CLICK Handlers
+     * ----------------------------------------------- */
+
+    // Handle the card selections
+    _onCardBoxClick(evt) {
+        evt.preventDefault();
+        const el = evt.currentTarget;
+        if (this.data["select1"] && this.data["select2"]) {
+            ui.notifications.warn("Both hidden combinations are already selected! Please reset if you want new ones.");
+            return;
+        }
+        if (!this.data["select1"]) {
+            this.data["select1"] = el.dataset.card;
+            $(el).addClass("step1");
+            CardCombat._instance.render(true);
+            return;
+        }
+        if (!this.data["select2"]) {
+            this.data["select2"] = el.dataset.card;
+            $(el).addClass("step2");
+            CardCombat._instance.render(true);
+            return;
+        }
+    }
+
+    _onResetSelection(evt) {
+        evt.preventDefault();
+        this.data["select1"] = null;
+        this.data["select2"] = null;
+        $(".stage .combat-card-box").removeClass("step1");
+        $(".stage .combat-card-box").removeClass("step2");
+        CardCombat._instance.render(true);
+    }
+
+    // Handle Click Submit by opponent
+    _onSubmitSelection(evt) {
+        evt.preventDefault();
+        if (!this.data["select1"] || !this.data["select2"]) {
+            ui.notifications.warn("Please select two cards.");
+            return;
+        }
+
+        if (!game.user.isGM) {
+            const content = { select1: this.data.select1, select2: this.data.select2 };
+            game.socket.emit("module.forbidden-card-combat", {
+                operation: "SubmitSelection",
+                user: game.user.id,
+                content: content,
+            });
+            this.data["submitted"] = true;
+            this.switchToStage2();
+        } else {
+            if (this.data.submitted) {
+                console.log("GO TO REVELATION!");
+                this.switchToStage2();
+            } else {
+                ui.notifications.warn("Please wait for the opponent to select cards.");
+            }
+        }
+    }
+
+    /** ----------------------------------------
+     * SOCKET Handlers
+     * ----------------------------------------- */
+
+    handle_StartCombat(socketData) {
+        //open the board only for the opponent and not the other users
+        if (socketData.content.opponentId == game.user.id) this.startCombat(socketData.content.opponentId);
+    }
+
+    // GM Recieves this when opponent submits the selected cards
+    handle_SubmitSelection(socketData) {
+        this.data["submitted"] = true;
+        this.data["opponentSelect1"] = socketData.content.select1;
+        this.data["opponentSelect2"] = socketData.content.select2;
+        CardCombat._instance.render(true);
     }
 
     handle_OpenCombatSheet() {
         CardCombat._instance.render(true);
     }
-
-    handleMyEvent(data) {
-        console.log(`User [${data.user}] says: ${data.content}`);
+    /** ----------------------------------------
+     * Helper Functions
+     * ----------------------------------------- */
+    switchToStage1() {
+        $(".stage.stage2").addClass("hidden");
+        $(".stage.stage1").removeClass("hidden");
     }
-    handleMyOtherEvent(data) {
-        // do something
+
+    switchToStage2() {
+        $(".stage.stage1").addClass("hidden");
+        $(".stage.stage2").removeClass("hidden");
     }
 }
 
 Hooks.once("ready", () => {
     if (CardCombat._instance) return;
     new CardCombat();
-    //CardCombat._instance.render(true);
-    //console.warn(CardCombat._instance.rendered);
     game.socket.on(`module.forbidden-card-combat`, (data) => {
-        //console.warn(data);
-        if (data.operation === "OpenCombatSheet") CardCombat._instance.handle_OpenCombatSheet(data);
-        if (data.operation === "myEvent") CardCombat._instance.handleMyEvent(data);
-        if (data.operation === "myOtherEvent") CardCombat._instance.handleMyOtherEvent(data);
+        if (data.operation === "InitiateCombat") CardCombat._instance.handle_StartCombat(data);
+        if (data.operation === "SubmitSelection") CardCombat._instance.handle_SubmitSelection(data);
+    });
+});
+
+Hooks.once("init", () => {
+    Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+        switch (operator) {
+            case "==":
+                return v1 == v2 ? options.fn(this) : options.inverse(this);
+            case "===":
+                return v1 === v2 ? options.fn(this) : options.inverse(this);
+            case "!=":
+                return v1 != v2 ? options.fn(this) : options.inverse(this);
+            case "!==":
+                return v1 !== v2 ? options.fn(this) : options.inverse(this);
+            case "<":
+                return v1 < v2 ? options.fn(this) : options.inverse(this);
+            case "<=":
+                return v1 <= v2 ? options.fn(this) : options.inverse(this);
+            case ">":
+                return v1 > v2 ? options.fn(this) : options.inverse(this);
+            case ">=":
+                return v1 >= v2 ? options.fn(this) : options.inverse(this);
+            case "&&":
+                return v1 && v2 ? options.fn(this) : options.inverse(this);
+            case "||":
+                return v1 || v2 ? options.fn(this) : options.inverse(this);
+            default:
+                return options.inverse(this);
+        }
     });
 });
