@@ -9,7 +9,15 @@
     "esmodules": [],
     "scripts": ["fl-combat.js"],
     "styles": ["css/forbidden-card-combat.css"],
-    "packs": [],
+    "packs": [
+        {
+            "name": "forbidden-card-combat",
+            "label": "Forbidden Card Combat",
+            "path": "packs/forbidden-card-combat.db",
+            "entity": "Macro",
+            "module": "forbidden-card-combat"
+        }
+    ],
     "languages": [],
     "socket": true,
     "url": "https://github.com/superseva/forbidden-card-combat",
