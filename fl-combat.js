@@ -209,7 +209,10 @@ class CardCombat extends Application {
         let cardPlayer = "modules/forbidden-card-combat/assets/en/card-" + stepData["step" + step].playerCard + ".png";
         $(selectorPlayer).attr("src", cardPlayer);
         if (game.user.isGM) {
-            let chatContent = "GM: " + stepData["step" + step].gmCard + " vs. " + "Player: " + stepData["step" + step].playerCard;
+            let chatContent = `<h2 class="step-center">STEP ${step}</h2>
+            <div class="step-center">GM: <strong>${String(stepData["step" + step].gmCard).toUpperCase()}</strong></div>
+            <div class="step-center">vs.</div>
+            <div class="step-center">Player: <strong>${String(stepData["step" + step].playerCard).toUpperCase()}</strong></div>`;
             ChatMessage.create({ content: chatContent });
         }
     }
