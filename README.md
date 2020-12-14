@@ -1,4 +1,4 @@
-# Forbidden Lands - Hidden Combinations Card Combat
+# Forbidden Lands - Hidden Combinations Cards Combat
 
 ## How to use:
 
