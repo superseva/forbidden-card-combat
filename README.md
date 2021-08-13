@@ -19,7 +19,7 @@ Use the GM macro from the included compendium to initiate the combat sequence be
 
 ```
 let userList = "";
-game.users.entries.forEach((u)=>{
+game.users.entities.forEach((u)=>{
 if(u.active && !u.isGM){
 userList += `<option value='${u._id}'>${u.name}</option>`;
 }
@@ -28,11 +28,11 @@ userList += `<option value='${u._id}'>${u.name}</option>`;
 let d = new Dialog({
   title: 'Initiate Card Combat',
   content: `
-    <form class="flexcol">
+    <form class="flexcol">      
       <div class="form-group">
         <label for="userSelect">Initiate Combat With:</label>
         <select name="userSelect"> ${userList}</select>
-      </div>
+      </div>      
     </form>
   `,
   buttons: {
@@ -44,7 +44,7 @@ let d = new Dialog({
       icon: '<i class="fas fa-check"></i>',
       label: 'Yes',
       callback: (html) => {
-        let selectedUser = html.find('[name="userSelect"]').val();
+        let selectedUser = html.find('[name="userSelect"]').val();        
 CardCombat._instance.initiateCombat(selectedUser );
       }
     },
