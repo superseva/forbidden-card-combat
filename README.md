@@ -19,9 +19,9 @@ Use the GM macro from the included compendium to initiate the combat sequence be
 
 ```
 let userList = "";
-game.users.entities.forEach((u)=>{
+game.users.forEach((u)=>{
 if(u.active && !u.isGM){
-userList += `<option value='${u._id}'>${u.name}</option>`;
+userList += `<option value='${u.id}'>${u.name}</option>`;
 }
 });
 
