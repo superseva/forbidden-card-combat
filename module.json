@@ -1,10 +1,14 @@
 {
+    "id": "forbidden-card-combat",
     "name": "forbidden-card-combat",
     "title": "Forbidden Lands Card Combat",
     "description": "Card Combat For Forbidden Lands",
-    "version": "0.0.4",
-    "minimumCoreVersion": "0.8.6",
-    "compatibleCoreVersion": "9",
+    "version": "0.0.5",
+    "compatibility": {
+        "minimum": 9,
+        "verified": "11",
+        "maximum": "11"
+    },
     "author": "HappySteve",
     "esmodules": [],
     "scripts": ["fl-combat.js"],
@@ -14,7 +18,7 @@
             "name": "forbidden-card-combat",
             "label": "Forbidden Card Combat",
             "path": "packs/forbidden-card-combat.db",
-            "entity": "Macro",
+            "type": "Macro",
             "module": "forbidden-card-combat"
         }
     ],
