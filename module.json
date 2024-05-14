@@ -3,13 +3,16 @@
     "name": "forbidden-card-combat",
     "title": "Forbidden Lands Card Combat",
     "description": "Card Combat For Forbidden Lands",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "compatibility": {
         "minimum": 9,
-        "verified": "11",
-        "maximum": "11"
+        "verified": "11"
     },
-    "author": "HappySteve",
+    "authors": [
+		{
+			"name": "HappySteve"
+		}
+	],
     "esmodules": [],
     "scripts": ["fl-combat.js"],
     "styles": ["css/forbidden-card-combat.css"],
